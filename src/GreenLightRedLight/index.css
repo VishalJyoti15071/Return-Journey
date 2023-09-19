@@ -1,0 +1,85 @@
+.main-container {
+  height: 100vh;
+  width: 100vw;
+  color: #ff5902;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.heading-image {
+  justify-self: flex-start;
+  align-self: flex-start;
+}
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+.game-heading {
+  font-size: 35px;
+  align-self: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 0px;
+}
+.label-content {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.input-name {
+  height: 20px;
+}
+.difficulty-container {
+  display: flex;
+  align-items: center;
+}
+.input-radio {
+  cursor: pointer;
+}
+.label-radio {
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.button {
+  height: 40px;
+  color: #ffffff;
+  background-color: #ff5902;
+  border-radius: 5px;
+  border-width: 0px;
+  font-size: 14px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.registration-card-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #ff5902;
+  width: 100%;
+  height: 50vh;
+  padding: 20px;
+}
+.timer-count-container {
+  display: flex;
+  justify-content: space-between;
+}
+.count-heading {
+  font-size: 25px;
+}
+.box {
+  height: 200px;
+  width: 200px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
