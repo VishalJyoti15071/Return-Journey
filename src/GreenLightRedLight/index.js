@@ -3,12 +3,14 @@ import './index.css'
 
 class GreenRedLight extends Component {
   state = {
+    nameOfPlayer: '',
     isGameStart: false,
     score: 0,
-    timer: 10,
+    timer: 40,
     isGreen: true,
     num: 0,
     isResult: false,
+    n: 10,
   }
 
   clearTime = () => {
@@ -43,29 +45,31 @@ class GreenRedLight extends Component {
     const {num} = this.state
     if (num >= 0) {
       this.setState(prevState => ({score: prevState.score + 1}))
-    } else if (num < 0) {
+    } else {
       clearInterval(this.uniqueTimerId)
       this.setState({isResult: true})
     }
   }
 
-  isResultContainer = () => {
-    const {score} = this.state
-    return (
-      <>
-        <h1 className="game-heading">Games Started</h1>
-        <div className="registration-card-container">{score}</div>
-      </>
+  playGameAgain = () =>
+    this.setState(
+      {
+        isGameStart: false,
+        score: 0,
+        timer: 40,
+        isGreen: true,
+        num: 0,
+        isResult: false,
+        n: 10,
+      },
+      clearInterval(this.uniqueTimerId),
     )
-  }
 
   renderStartSuccessfully = () => {
-    const {score, timer, isGreen, isResult} = this.state
+    const {score, timer, isGreen, isResult, n, nameOfPlayer} = this.state
     return (
       <div className="registration-container">
-        {isResult ? (
-          this.isResultContainer
-        ) : (
+        {!isResult && (
           <>
             <h1 className="game-heading">Games Started</h1>
             <div className="registration-card-container">
@@ -74,7 +78,7 @@ class GreenRedLight extends Component {
                 <h1 className="count-heading">{`Timer: ${timer}`}</h1>
               </div>
               <button
-                type="button"
+                type="submit"
                 className={`box ${isGreen ? 'green' : 'red'}`}
                 onClick={this.onClickBox}
               >
@@ -83,62 +87,109 @@ class GreenRedLight extends Component {
             </div>
           </>
         )}
+        {isResult && (
+          <>
+            <h1 className="game-heading">Games Result</h1>
+            <div className="game-over-container">
+              <h1 className="result-heading">
+                {score >= n ? 'You win!' : 'Game Over!'}
+              </h1>
+              <p className="result-name-para">{`Hello ${nameOfPlayer}`}</p>
+              <p className="your-score">{`YOUR SCORE: ${score}`}</p>
+              <button
+                type="button"
+                className="play-button"
+                onClick={this.playGameAgain}
+              >
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+                  className="restart"
+                  alt="reset"
+                />
+                PLAY AGAIN
+              </button>
+            </div>
+          </>
+        )}
       </div>
     )
   }
 
-  renderRegistration = () => (
-    <form className="registration-container" onSubmit={this.onSubmitRegister}>
-      <h1 className="game-heading">Squid Games</h1>
-      <label className="label-content" htmlFor="nameInput">
-        Name
-      </label>
-      <input className="input-name" id="nameInput" type="text" />
-      <label className="label-content" htmlFor="emailInput">
-        Email
-      </label>
-      <input className="input-name" id="emailInput" type="text" />
-      <label className="label-content" htmlFor="mobileInput">
-        Mobile Number
-      </label>
-      <input className="input-name" id="mobileInput" type="text" />
-      <label className="label-content" htmlFor="nameInput">
-        Difficulty Level
-      </label>
-      <div className="difficulty-container">
-        <input
-          className="input-radio"
-          id="easyInput"
-          type="radio"
-          name="difficulty"
-        />
-        <label className="label-radio" htmlFor="easyInput">
-          Easy
+  onClickRadio = event => {
+    this.setState({n: event.target.value})
+  }
+
+  onChangePlayerName = event => {
+    this.setState({nameOfPlayer: event.target.value})
+  }
+
+  renderRegistration = () => {
+    const {nameOfPlayer} = this.state
+    return (
+      <form className="registration-container" onSubmit={this.onSubmitRegister}>
+        <h1 className="game-heading">Squid Games</h1>
+        <label className="label-content" htmlFor="nameInput">
+          Name
         </label>
         <input
-          className="input-radio"
-          id="mediumInput"
-          type="radio"
-          name="difficulty"
+          className="input-name"
+          id="nameInput"
+          type="text"
+          value={nameOfPlayer}
+          onChange={this.onChangePlayerName}
         />
-        <label className="label-radio" htmlFor="mediumInput">
-          Medium
+        <label className="label-content" htmlFor="emailInput">
+          Email
         </label>
-        <input
-          className="input-radio"
-          id="hardInput"
-          type="radio"
-          name="difficulty"
-        />
-        <label className="label-radio" htmlFor="hardInput">
-          Hard
+        <input className="input-name" id="emailInput" type="text" />
+        <label className="label-content" htmlFor="mobileInput">
+          Mobile Number
         </label>
-      </div>
-      <button type="submit" className="button">
-        Start Game
-      </button>
-    </form>
-  )
+        <input className="input-name" id="mobileInput" type="text" />
+        <label className="label-content" htmlFor="nameInput">
+          Difficulty Level
+        </label>
+        <div className="difficulty-container">
+          <input
+            className="input-radio"
+            id="easyInput"
+            value={10}
+            type="radio"
+            name="difficulty"
+            onClick={this.onClickRadio}
+          />
+          <label className="label-radio" htmlFor="easyInput">
+            Easy
+          </label>
+          <input
+            className="input-radio"
+            id="mediumInput"
+            type="radio"
+            name="difficulty"
+            value={15}
+            onClick={this.onClickRadio}
+          />
+          <label className="label-radio" htmlFor="mediumInput">
+            Medium
+          </label>
+          <input
+            className="input-radio"
+            id="hardInput"
+            type="radio"
+            name="difficulty"
+            value={25}
+            onClick={this.onClickRadio}
+          />
+          <label className="label-radio" htmlFor="hardInput">
+            Hard
+          </label>
+        </div>
+        <button type="submit" className="button">
+          Start Game
+        </button>
+      </form>
+    )
+  }
 
   render() {
     const {isGameStart} = this.state
